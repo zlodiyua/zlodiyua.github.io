@@ -1,0 +1,379 @@
+$(document).ready(function () {
+	$('.hidden_select').each(function() {
+        var getSelected = $('option:selected').text();
+        $(this).parents('.styled_select').find('input').val(getSelected);
+    });
+	
+    $.datepicker.regional['ua'] = {clearText: 'Очистити', clearStatus: '',
+        closeText: 'Закрити', closeStatus: '',
+        prevText: '&lt;', prevStatus: '1',
+        nextText: '&gt;', nextStatus: '2',
+        currentText: 'Сьогодні', currentStatus: '',
+        monthNames: ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень',
+            'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'],
+        monthNamesShort: ['Січ', 'Лют', 'Бер', 'Кві', 'Тра', 'Чер',
+            'Лип', 'Сер', 'Вер', 'Жов', 'Лис', 'Гру'],
+        monthStatus: '', yearStatus: '',
+        weekHeader: 'Не', weekStatus: '',
+        dayNames: ['неділя', 'понеділок', 'вівторок', 'середа', 'четвер', 'пятниця', 'суббота'],
+        dayNamesShort: ['нед', 'пнд', 'вів', 'срд', 'чтв', 'птн', 'сбт'],
+        dayNamesMin: ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+        dayStatus: 'DD', dateStatus: 'D, M d',
+        dateFormat: 'dd.mm.yy', firstDay: 1,
+        initStatus: '', isRTL: false};
+    $.datepicker.setDefaults($.datepicker.regional['ua']);
+    
+    $('.archive-clnd .dtpck').datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        dateFormat: 'yy-mm-dd',
+        changeYear: true,
+        yearRange: "1920:2015"
+    });
+    
+	$('.link-info > span').on('click', function() {
+        var par = $('.leadership-info .full-info');
+        if(!par.hasClass('active')) {par.addClass('active');}
+        else {par.removeClass('active');}
+    });
+	
+	$('.link-down').on('click', function() {
+        var rap = $(this).parents('li'),
+            transit = '';
+        if(!rap.hasClass('open')) {rap.addClass('open');}
+        else {rap.removeClass('open');}
+        
+        transit = $(this).text();
+        $(this).text($(this).attr('data-transit'));
+        $(this).attr('data-transit', transit);
+    });
+	
+	$('.close_form').on('click', function() {
+		var obj = $(this).parents('.popups');
+		
+		$('#bodyMask').fadeOut(200).removeClass('show_hidden');
+		obj.fadeOut(200).removeClass('show_hidden');
+	});
+
+    var border_height = 0;
+
+    $(window).on("load", function () {
+        $(".slides img").each(function () {
+            imageScale($(this));
+        });
+    });
+
+    $('.actually').scrollator();
+
+    $(".last_news .date").each(function () {
+        $(this).prev(".link").addClass("no");
+    });
+
+    $(".gallery").flexslider({
+        controlsContainer: ".navigation",
+        namespace: "",
+        animationLoop: false,
+        controlNav: false,
+        animation: "slide",
+        prevText: "",
+        nextText: "",
+        slideshow: false
+    });
+
+    var active = $(".main_slider .slides li"),
+            slider = $(".main_slider .info"),
+            current = 0;
+
+    $(".main_slider").flexslider({
+        controlsContainer: ".navigat",
+        namespace: "",
+        animationLoop: false,
+        controlNav: true,
+        animation: "slide",
+        prevText: "",
+        pauseOnHover: true,
+        nextText: "",
+        animationSpeed: 300,
+        slideshowSpeed: 6000,
+        start: function (sl) {
+            current = sl.currentSlide;
+            slider.find(".titl").text(active.eq(current).attr("data-title"));
+            slider.find(".desc").text(active.eq(current).attr("data-text"));
+            slider.find(".time").text(active.eq(current).attr("data-date"));
+            slider.find(".title").attr('href', active.eq(current).attr("data-link"));
+        },
+        before: function (sl) {
+            slider.find(".wrap").fadeOut(100);
+        },
+        after: function (sl) {
+            current = sl.currentSlide;
+            slider.find(".wrap").fadeIn(100).parent().find(".titl").text(active.eq(current).attr("data-title"));
+            slider.find(".wrap").fadeIn(100).parent().find(".desc").text(active.eq(current).attr("data-text"));
+            slider.find(".wrap").fadeIn(100).parent().find(".time").text(active.eq(current).attr("data-date"));
+            slider.find(".wrap").fadeIn(100).parent().find(".title").attr('href', active.eq(current).attr("data-link"));
+        }
+    });
+
+    $(".buseful").flexslider({
+        controlsContainer: ".nav",
+        namespace: "",
+        animationLoop: true,
+        controlNav: true,
+        animation: "fade",
+        prevText: "",
+        nextText: "",
+        slideshow: false
+    });
+
+    $(".last_news .list").flexslider({
+        namespace: "",
+        animationLoop: false,
+        controlNav: true,
+        animation: "slide",
+        directionNav: false,
+        prevText: "",
+        nextText: "",
+        slideshow: false
+    });
+
+    $(".important .list").flexslider({
+        namespace: "",
+        animationLoop: false,
+        controlNav: true,
+        animation: "slide",
+        directionNav: false,
+        prevText: "",
+        nextText: "",
+        startAt: 0,
+        slideshow: false
+    });
+
+	var overParent,
+		isArea = false,
+		isTitle = false,
+		delTimer = 0;
+	$('.map_large path').on('mouseenter', function() {isArea = true;}).on('mouseleave', function() {isArea = false;});
+	$('.area_title').on('mouseenter', function() {isTitle = true;}).on('mouseleave', function() {isTitle = false;});
+	
+	$('[data-area]').on('mouseenter', function() {
+		clearInterval(delTimer);
+		overParent = $(this).parents('.ukraine');
+		
+		$('[data-area="'+$(this).attr('data-area')+'"]', overParent).addClass('hovered').attr('data-hovered', 'true');
+	}).on('mouseleave', function() {
+		if(!isArea && !isTitle) {$('[data-area="'+$(this).attr('data-area')+'"]', overParent).removeClass('hovered').removeAttr('data-hovered');}
+	}).on('click', function() {
+		$('[data-area]').removeClass('current');
+		$('path[data-area]').removeAttr('class');
+		$('[data-area="'+$(this).attr('data-area')+'"]').addClass('current');
+		$('path[data-area="'+$(this).attr('data-area')+'"]').attr('class', 'current');
+	});
+
+
+    $(document).on("click", "header .menu .link", function () {
+        dropmenu();
+        var th = $(this),
+                dropmenus = $("header .dropmenu");
+        if (th.hasClass("active")) {
+            dropmenus.find(".close").hide();
+            dropmenus.find(".submenu[data-id=" + th.attr("data-id") + "]").slideUp(300, function () {
+                th.removeClass("active");
+                dropmenus.hide();
+            });
+        }
+        else {
+            $("header .menu .link").removeClass("active");
+            dropmenus.find(".submenu, .close").hide();
+            dropmenus.show().find(".submenu[data-id=" + th.attr("data-id") + "]").slideDown(300, function () {
+                th.addClass("active");
+                dropmenus.find(".close").show();
+            });
+        }
+    }).on("click", "header .dropmenu .submenu span", function () {
+        if ($(this).hasClass("active")) {
+            $(this).removeClass("active").parent().find("ul").stop(true, false).slideUp(300);
+        }
+        else {
+            $(this).addClass("active").parent().find("ul").stop(true, false).slideDown(300);
+        }
+    }).on("click", "header .dropmenu .close", function () {
+        $("header .menu > div.active").trigger("click");
+        dropmenu();
+    }).on("mouseenter", "footer .facebook", function () {
+        $("span", this).animate({"width": "95px"}, 150);
+    }).on("click", ".radio", function () {
+        if (!$("span", this).hasClass("active")) {
+            $(".radio span[data-name=" + $("span", this).attr("data-name") + "]").parent().removeClass("active");
+            $(this).addClass("active");
+        }
+    }).on("click", "header .head .view span", function () {
+        if ($(this).hasClass("map")) {
+            $(".ukraine_list").hide();
+            $(".ukraine").fadeIn(200);
+            $("header .head .view span").removeClass("current");
+            $(this).addClass("current");
+        }
+        else {
+            $(".ukraine_list").fadeIn(200);
+            $(".ukraine").hide();
+            $("header .head .view span").removeClass("current");
+            $(this).addClass("current");
+        }
+        dropmenu();
+    }).on("click", "header .area .close", function () {
+        $("header .main .map").trigger("click");
+    }).on("click", "header .main .map", function () {
+        var th = $(this);
+        $("header .subtl1").hide();
+        if (th.hasClass("active")) {
+            $("header .area").fadeOut(500, function () {
+                th.removeClass("active");
+				$("header .subtl2").removeClass("active");
+                $("html, body").animate({scrollTop: 0}, 500);
+                $(".scrollator_lane_holder").css({"top": $(".actually").offset().top + 1, "bottom": -673});
+                dropmenu();
+            });
+
+        }
+        else {
+            $("header .area").fadeIn(500, function () {
+                $("html, body").animate({scrollTop: 215}, 500);
+				$("header .subtl2").removeClass("active");
+                th.addClass("active");
+            });
+            $(".scrollator_lane_holder").css({"top": $(".actually").offset().top + 1, "bottom": -($("header .area").outerHeight() + 673)});
+        }
+        dropmenu();
+    }).on("click", "header .search", function () {
+        var th = $(this);
+        $("header .subtl1").hide();
+        if (th.hasClass("active")) {
+            $("header .searching").fadeOut(300, function () {
+                th.removeClass("active");
+				$("header .subtl2").removeClass("active");
+                dropmenu();
+            });
+        }
+        else {
+            $("header .searching").fadeIn(300, function () {
+				$("header .subtl2").removeClass("active");
+                th.addClass("active");
+            });
+        }
+        dropmenu();
+    }).on("click", "header .phones", function () {
+        var th = $(this);
+        $("header .subtl1").hide();
+        if (th.hasClass("active")) {
+            $("header .top_phones").fadeOut(300, function () {
+                th.removeClass("active");
+				$("header .subtl2").removeClass("active");
+                dropmenu();
+            });
+        }
+        else {
+            $("header .top_phones").fadeIn(300, function () {
+			$("header .subtl2").removeClass("active");
+                th.addClass("active");
+            });
+        }
+        dropmenu();
+    }).on("click", "header .annons-btn", function () {
+        var th = $(this);
+        $("header .subtl1").hide();
+        if (th.hasClass("active")) {
+            $("header .announcement").fadeOut(300, function () {
+                th.removeClass("active");
+				$("header .subtl2").removeClass("active");
+                dropmenu();
+            });
+        }
+        else {
+            $("header .announcement").fadeIn(300, function () {
+				$("header .subtl2").removeClass("active");
+                th.addClass("active");
+            });
+        }
+        dropmenu();
+    }).on("click", "header .close", function () {
+        $("header .subtl1").hide();
+        $("header .subtl2").removeClass("active");
+        dropmenu();
+    }).on("click", ".select_region span", function () {
+        $(".select_region span").removeClass("current");
+        $(".news_zone").hide();
+        $(".news_zone[data-id=" + $(this).attr("data-id") + "]").show();
+        $(this).addClass("current");
+    });
+
+    $(".actually a span").each(function () {
+        $(this).css("margin-top", (103 - $(this).height()) / 2);
+    });
+
+});
+
+function changeSelect(obj) {
+    var getSelected = $('option:selected', obj).text();
+    $(obj).parents('.styled_select').find('input').val(getSelected);
+}
+
+
+function imageScale(img) {
+    var image = $(img),
+            imageH = image.height(),
+            imageW = image.width(),
+            imageContainerH = image.parent().height(),
+            imageContainerW = image.parent().width(),
+            marginTop = 0,
+            marginLeft = 0,
+            imageResWidth = 0;
+
+    image.css({"width": "auto", "height": "auto", "margin": 0});		// destroy current css properties
+
+    if (imageH > imageContainerH) {
+        image.css({"height": imageContainerH + "px", "width": "auto", "margin": 0});
+        var imgResW = image.width();
+
+        if (imgResW < imageContainerW) {
+            imageResWidth = imageContainerW;
+            marginTop = Math.round((image.height() - imageContainerH) / 2);
+
+            image.css({"margin": 0, "width": imageResWidth + "px", "height": "auto", "margin-top": "-" + marginTop + "px"});
+        }
+        else {
+            marginLeft = Math.round((image.width() - imageContainerW) / 2);
+            image.css({"margin": 0, "margin-left": "-" + marginLeft + "px"});
+        }
+    }
+    else {
+        image.css({"height": imageContainerH + "px", "width": "auto", "margin": 0});
+        var rImgW = image.width();
+
+        if (rImgW < imageContainerW) {
+            imageResWidth = imageContainerW;
+            marginTop = Math.round((image.height() - imageContainerH) / 2);
+
+            image.css({"margin": 0, "width": imageResWidth + "px", "height": "auto", "margin-top": "-" + marginTop + "px"});
+        }
+        else {
+            marginLeft = Math.round((image.width() - imageContainerW) / 2);
+            image.css({"margin": 0, "margin-left": "-" + marginLeft + "px"});
+        }
+    }
+    image.fadeIn(800);										// fade image (image need to have 'display: none' css style)
+    image.parent().find("div.pageLoader").fadeOut(0);		// hide loader if image load
+}
+
+function dropmenu() {
+    $("header .dropmenu").css("top", $(".menu_bg").offset().top + 55);
+}
+
+function showVideo(obj, link) {
+	if(link) {
+		var genFrame = "<iframe width='560' height='315' src='"+link+"' frameborder='0' allowfullscreen></iframe>";
+		
+		$('#seeVid .videotl').html($('> p', obj).text());
+		$('#bodyMask, #seeVid').fadeIn();
+		setTimeout(function() {$('#seeVid .videobx').html(genFrame);}, 500);
+	}
+}

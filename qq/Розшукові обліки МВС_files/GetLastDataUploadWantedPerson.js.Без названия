@@ -1,0 +1,14 @@
+$(document).ready(function(){
+var timerId = setInterval(function() {
+    
+                        $.ajax({
+                            cache: false,
+                            url: '/getstat/GetLastDataUploadWantedPerson/',
+                            dataType: 'text',
+                            success: function (data) {
+                              $('#GetLastDataUpload').html(data);
+                              }
+                        });
+}, 2000);
+
+});

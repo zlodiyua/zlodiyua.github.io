@@ -1,0 +1,43 @@
+#page404{
+    margin: 0 auto;
+    width: 400px;
+    height: 360px;
+}
+#GetLastDataUpload{
+    color:   brown;
+}
+#ButtonRozshuk{
+    margin-top: -200px;
+}
+
+.detal{
+    width: 100px;
+    height: 20px;
+    background: #0986a3;
+    text-align:  center;
+    padding: 7px 3px;
+    cursor:pointer;
+    border-radius: 3px;
+    color: white;
+}
+#TextNotFind{
+    text-align: center;
+    margin: 150px 0px 0px 0px;
+    color:red;
+    font-size: 20px;
+}
+#dovidkaresult{
+    height: 30px;
+    width: 800px;
+    padding: 100px 0px 0px 0px;
+    color:#ff0000;
+    font-size: 1rem;
+    margin: auto;
+}
+#clear{
+    cursor:pointer;
+    position: relative;
+    left:320px;
+    bottom:33px;
+
+}

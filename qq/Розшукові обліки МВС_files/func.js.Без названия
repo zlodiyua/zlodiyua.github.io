@@ -1,0 +1,27 @@
+var mainFile = 'index.php';
+
+$(document).ready(function(){
+	$('.sortNews').click(function(){
+		sortNews();
+	});
+});
+
+function sortNews(){
+	var date = $(".dtpck").datepicker().val();
+	if(date){
+		$.ajax({
+			type:'POST',
+			url:mainFile,
+			dataType:'JSON',
+			data:{
+				is_ajax:true,
+				plugin:'helpers',
+				action:'sortNews',
+				date:date
+			},
+			success:function(response){
+				location.href=response.content;
+			}
+		});
+	}
+}
